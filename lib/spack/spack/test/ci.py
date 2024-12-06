@@ -10,6 +10,7 @@ import pytest
 import llnl.util.filesystem as fs
 
 import spack.ci as ci
+import spack.concretize
 import spack.environment as ev
 import spack.error
 import spack.paths as spack_paths
@@ -450,7 +451,7 @@ def test_ci_run_standalone_tests_not_installed_junit(
     log_file = tmp_path / "junit.xml"
     args = {
         "log_file": str(log_file),
-        "job_spec": spack.spec.Spec("printing-package").concretized(),
+        "job_spec": spack.concretize.concretized(spack.spec.Spec("printing-package")),
         "repro_dir": str(repro_dir),
         "fail_fast": True,
     }
@@ -469,7 +470,7 @@ def test_ci_run_standalone_tests_not_installed_cdash(
     log_file = tmp_path / "junit.xml"
     args = {
         "log_file": str(log_file),
-        "job_spec": spack.spec.Spec("printing-package").concretized(),
+        "job_spec": spack.concretize.concretized(spack.spec.Spec("printing-package")),
         "repro_dir": str(repro_dir),
     }
 
@@ -502,7 +503,7 @@ def test_ci_run_standalone_tests_not_installed_cdash(
 def test_ci_skipped_report(tmpdir, mock_packages, config):
     """Test explicit skipping of report as well as CI's 'package' arg."""
     pkg = "trivial-smoke-test"
-    spec = spack.spec.Spec(pkg).concretized()
+    spec = spack.concretize.concretized(spack.spec.Spec(pkg))
     ci_cdash = {
         "url": "file://fake",
         "build-group": "fake-group",
