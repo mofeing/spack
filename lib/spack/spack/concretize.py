@@ -180,8 +180,9 @@ def concretized(spec: Spec, tests: Union[bool, Iterable[str]] = False) -> Spec:
             the packages in the list, if True activate 'test' dependencies for all packages.
     """
     from spack.solver.asp import Solver, SpecBuilder
+    from spack.spec_lookup import replace_hash
 
-    spec.replace_hash()
+    replace_hash(spec)
 
     for node in spec.traverse():
         if not node.name:

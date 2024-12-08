@@ -28,6 +28,7 @@ import spack.parser
 import spack.paths
 import spack.repo
 import spack.spec
+import spack.spec_lookup
 import spack.store
 import spack.traverse as traverse
 import spack.user_environment as uenv
@@ -208,7 +209,8 @@ def _concretize_spec_pairs(to_concretize, tests=False):
     ):
         # Get all the concrete specs
         ret = [
-            concrete or (abstract if abstract.concrete else abstract.lookup_hash())
+            concrete
+            or (abstract if abstract.concrete else spack.spec_lookup.lookup_hash(abstract))
             for abstract, concrete in to_concretize
         ]
 
