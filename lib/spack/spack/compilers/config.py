@@ -263,14 +263,6 @@ class CompilerRemover:
             self.configuration.set("compilers", compilers_yaml, scope=scope)
 
 
-def compilers_for_spec(compiler_spec, *, arch_spec=None, scope=None, init_config=True):
-    """This gets all compilers that satisfy the supplied CompilerSpec.
-    Returns an empty list if none are found.
-    """
-    # FIXME (compiler as nodes): to be removed, or reimplemented
-    raise NotImplementedError("still to be implemented")
-
-
 def compilers_for_arch(
     arch_spec: "spack.spec.ArchSpec", *, scope: Optional[str] = None
 ) -> List["spack.spec.Spec"]:
@@ -278,12 +270,6 @@ def compilers_for_arch(
     compilers = all_compilers_from(spack.config.CONFIG, scope=scope)
     query = f"platform={arch_spec.platform} target=:{arch_spec.target}"
     return [x for x in compilers if x.satisfies(query)]
-
-
-def class_for_compiler_name(compiler_name):
-    """Given a compiler module name, get the corresponding Compiler class."""
-    # FIXME (compiler as nodes): to be removed, or reimplemented
-    raise NotImplementedError("still to be implemented")
 
 
 _EXTRA_ATTRIBUTES_KEY = "extra_attributes"
