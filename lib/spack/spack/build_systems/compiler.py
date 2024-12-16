@@ -289,6 +289,39 @@ class CompilerPackage(spack.package_base.PackageBase):
         """Name that archspec uses to refer to this compiler"""
         return self.spec.name
 
+    @property
+    def cc(self) -> Optional[str]:
+        assert self.spec.concrete, "cannot retrieve C compiler, spec is not concrete"
+        if self.spec.external:
+            return self.spec.extra_attributes["compilers"].get("c", None)
+        return self._cc_path()
+
+    def _cc_path(self) -> Optional[str]:
+        """Returns the path to the C compiler, if the package was installed by Spack"""
+        return None
+
+    @property
+    def cxx(self) -> Optional[str]:
+        assert self.spec.concrete, "cannot retrieve C++ compiler, spec is not concrete"
+        if self.spec.external:
+            return self.spec.extra_attributes["compilers"].get("cxx", None)
+        return self._cxx_path()
+
+    def _cxx_path(self) -> Optional[str]:
+        """Returns the path to the C++ compiler, if the package was installed by Spack"""
+        return None
+
+    @property
+    def fortran(self):
+        assert self.spec.concrete, "cannot retrieve Fortran compiler, spec is not concrete"
+        if self.spec.external:
+            return self.spec.extra_attributes["compilers"].get("fortran", None)
+        return self._fortran_path()
+
+    def _fortran_path(self) -> Optional[str]:
+        """Returns the path to the Fortran compiler, if the package was installed by Spack"""
+        return None
+
 
 def _implicit_rpaths(pkg: spack.package_base.PackageBase) -> List[str]:
     detector = spack.compilers.libraries.CompilerPropertyDetector(pkg.spec)
